@@ -1,4 +1,4 @@
-Name 68030_MASTER; 
+Name 68030_MASTER_S; 
 Assembly 0002; 
 Revision 1.1 Full Size Board; 
 PartNo U10 ATF1508AS; 
@@ -20,7 +20,7 @@ PROPERTY ATMEL { TDI_pullup=on };
 /* 
 * ------ 68030 CPU BOARD V1.0  S100 Master/Slave Board with OTT RAM Connectors-----
 *
-* CPLD IS SETUP TO RUN AS A S100 BUS MASTER DEVICE  with onboard EXTERNAL ROM <<<
+* CPLD IS SETUP TO RUN AS A S100 BUS SLAVE DEVICE  with onboard EXTERNAL ROM <<<
 * Make all data and address outputs fast slew and all chip selects slow 
 * For IO_TEST_B, C & D code in ROM
 */ 
@@ -142,6 +142,7 @@ CPU_RESET = BOARD_ACTIVE;
 
 XFERI = 'b'0;              /* Hold these low */
 XFERII = 'b'0;
+pHLDA = 'b'0;
 
 INACTIVATE_DATA_LINES =  'b'1;	/* Just to be safe, for now,  pull these signals high */
 INACTIVATE_CONTROL_LINES =  'b'1;
@@ -155,12 +156,12 @@ CPU_STERM = 'b'1;				/* No Synchronous RAM timing */
 !MEM_WR  =    !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & !S100_SEL; 
 
         							/* RAM addressing so IO_ADDRESS will be HIGH */
-!MEM_RD  =     CPU_RW & !CPU_DS  & BOARD_ACTIVE  & IO_ADDRESS & ROM_SEL & !S100_SEL;
+!MEM_RD  =     CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & ROM_SEL & !S100_SEL;
 
 								/* Port addressing so IO_ADDRESS will be LOW */
 !IO_OUT  =    !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;    
 
-!IO_IN   =     CPU_RW & !CPU_DS  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;  
+!IO_IN   =     CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;  
 	
 !INTA    =    !INTA_CODE & CPU_FC0 & CPU_FC1 & CPU_FC2 & !CPU_AS;		
 
@@ -171,11 +172,12 @@ CPU_STERM = 'b'1;				/* No Synchronous RAM timing */
 CPU_AVEC = ANY_IPL;			/* Interrupt detected by u20 pin 14 */
 
   				            /* ----------- S100 Bus Control signals ---------------------- */
+pSYNC_68K.d = CPU_AS & !CPU_ECS;
+pSYNC_68K.ckmux = PHI;
+pSYNC_68K.ce = 'b'1;
+pSYNC_68K.ap = CPU_AS & !CPU_ECS;
 
- pSYNC_68K =   CPU_AS & !CPU_ECS;				/* AS* is low when the bus has a valid address */	 
-
- ppDBIN   =    !CPU_DS &  CPU_RW & BOARD_ACTIVE & !S100_SEL;	/* pDBIN is active HIGH on S100 bus */
-
+ppDBIN   =    !CPU_DS &  CPU_RW & BOARD_ACTIVE & !S100_SEL;	      /* pDBIN is active HIGH on S100 bus */
 !dpWR     =   !CPU_DS & !CPU_RW & BOARD_ACTIVE & !S100_SEL; 	/* pWR* is active LOW on S100 bus */
 
 
@@ -188,7 +190,7 @@ CPU_AVEC = ANY_IPL;			/* Interrupt detected by u20 pin 14 */
 !S100_8_OUT_OE   =  ((!CPU_RW  & !CPU_DBEN  & sXTRQ  & BOARD_ACTIVE  & !S100_SEL)
 			 # (!CPU_DBEN  & !sXTRQ  & BOARD_ACTIVE  & !S100_SEL));                     	
 
-!S100_8_IN_DIR  =   CPU_RW & sXTRQ;		/* 8 bit only */
+!S100_8_IN_DIR  =   CPU_RW & sXTRQ;		      /* 8 bit only */
 
  S100_8_OUT_DIR  =  !CPU_RW;				/* Use for both 8 & 16 bit data */		
 
