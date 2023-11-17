@@ -58,15 +58,15 @@ IO_PORTS.ar = 'b'0;
 IO_PORTS.sp = 'b'0;
 
 !ROM_SEL   =       (!BOOT                                                                /* ROM for first 8 cycles  */ 
-                #  (!mA31 & !mA30 & !mA29 & !mA28 & !mA27 & !mA26 & !mA25 & !mA24    
-                   & mA23 &  mA22 &  mA21 &  mA20 &  mA19 &  mA18 & !mA17 & !mA16));     /* for ROM at (00)FCxxxx */
+                #  (!mA31 & !mA30 & !mA29 & !mA28 & !mA27 & !mA26 & !mA25 & !mA24        /* ROM at (00)FCxxxx */
+                &    mA23 &  mA22 &  mA21 &  mA20 &  mA19 &  mA18 & !mA17 & !mA16));
 
 ROM_SEL.ar = 'b'0;
 ROM_SEL.sp = 'b'0;
 
 
-!S100_BUS   =      ((!mA31 & !mA30 & !mA29 & !mA28 & !mA27 & !mA26 & !mA25 & !mA24)      	/* If RAM address is < 16M */
-		   # (!IO_PORTS));   								/* and I/O at FFFFxxxx */
+!S100_BUS   =      ((!mA31 & !mA30 & !mA29 & !mA28 & !mA27 & !mA26 & !mA25 & !mA24)      /* If RAM address is < 16M */
+		    #       (!IO_PORTS));                                                        /* and I/O at FFFFxxxx */
 
 S100_BUS.ar = 'b'0;
 S100_BUS.sp = 'b'0;

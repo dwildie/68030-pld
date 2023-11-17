@@ -1,7 +1,7 @@
 
 CUPL(WM)        5.0a  Serial# 60008009
 Device          g22v10  Library DLIB-h-40-1
-Created         Sat Sep 30 21:02:14 2017
+Created         Sun Oct 17 12:58:24 2021
 Name            68030_GAL1
 Partno          U28 22V10
 Revision        1.0
@@ -41,4 +41,4 @@ Location        CA,San Ramon
 *L05856 00000011001000110010010101100011
 *L05888 0001
 *C392A
-*0BFE
+*0C16

@@ -1,11 +1,11 @@
-{COMPONENT C:\WINCUPL\S100_CPLD'S\64030\68030_V06\GALS\68030_GAL1.SYM
+{COMPONENT C:\GALS\68030_GAL1.SYM
 
  {ENVIRONMENT
   {PDIFvrev 3.00}
   {Program "CUPL(WM) Version 5.0a"}
   {DBtype "Schematic"}
   {DBvrev 1.01}
-  {DBtime "Sat Sep 30 21:02:14 2017 "}
+  {DBtime "Sun Oct 17 12:58:24 2021 "}
   {DBunit "MIL"}
   {DBgrid 10}
   {Lyrstr "WIRES" 1 "BUS" 1 "GATE" 2 "IEEE" 2 "PINFUN" 3 "PINNUM" 1 
@@ -161,7 +161,7 @@
    {EX
     [Ly "ATTR2"]
     [Ts 12][Tj "CT"][Tr 0][Tm "N"]
-    {At PLD C:\WINCUPL\S100_CPLD'S\64030\68030_V06\GALS\68030_GAL1 220 420}
+    {At PLD C:\GALS\68030_GAL1 220 420}
    }
   }
  }
