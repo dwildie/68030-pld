@@ -1,0 +1,80 @@
+Name 68030_GAL1;                        /* Remember output .jed file will always have this name */
+Assembly 0001; 
+Revision 1.0; 
+PartNo U28 22V10; 
+Device G22V10; 
+Company S100Computers.com; 
+Designer John Monahan; 
+Location CA,San Ramon; 
+Date 9/28/2017
+
+
+
+property ATMEL { xor_synthesis=on }; 
+property ATMEL { logic_doubling=on }; 
+property ATMEL { jtag=on }; 
+PROPERTY ATMEL { preassign keep }; 
+PROPERTY ATMEL { TMS_pullup=on }; 
+PROPERTY ATMEL { TDI_pullup=on }; 
+
+
+/* 
+* -----------------  68030 BOARD GAL1 For Baby 68030 Bosrd
+* IS USED TO SELECT IO Ports range
+* Make all data and address outputs fast slew and all chip selects slow
+* For final GAL1 (where ROM is at FC0000H). 
+*/ 
+
+PIN 1  = CPU_AS;            /* address line strobe  */
+PIN 2  = mA31;
+PIN 3  = mA30;
+PIN 4  = mA29;
+PIN 5  = mA28;
+PIN 6  = mA27;
+PIN 7  = mA26;
+PIN 8  = mA25;
+PIN 9  = mA24;
+PIN 10 = mA23;
+PIN 11 = mA22;
+Pin 12 = GND;
+
+Pin 13 = mA21;
+Pin 14 = mA20;
+Pin 15 = mA19;
+Pin 16 = mA18;
+Pin 17 = mA17;
+Pin 18 = mA16;
+Pin 19 = ROM_SEL;      	/* Active LOW MAP of onboard ROM (00FCxxxx */
+Pin 20 = IO_PORTS;		/* Active LOW for ALL I/O Ports on S100 Bus */
+Pin 21 = INTA_CODE;         /* INTA Code when FC0-FC2 = 111 */ 
+Pin 22 = S100_BUS;      	 /* Active LOW for S100 BUS RAM & Ports, HIGH for OTT RAM */ 
+Pin 23 = BOOT;        	/* Low with first 8 AS* pulses on power up */
+
+
+!IO_PORTS  =       mA31 & mA30 & mA29 & mA28 & mA27 & mA26 & mA25 & mA24        		/*  S100 Bus up to 16MB Only */
+                &  mA23 & mA22 & mA21 & mA20 & mA19 & mA18 & mA17 & mA16;                /* Ports at (FF)FFxxxx  */
+ 
+IO_PORTS.ar = 'b'0;
+IO_PORTS.sp = 'b'0;
+
+!ROM_SEL   =       (!BOOT                                                                /* ROM for first 8 cycles  */ 
+                #  (!mA31 & !mA30 & !mA29 & !mA28 & !mA27 & !mA26 & !mA25 & !mA24    
+                   & mA23 &  mA22 &  mA21 &  mA20 &  mA19 &  mA18 & !mA17 & !mA16));     /* for ROM at (00)FCxxxx */
+
+ROM_SEL.ar = 'b'0;
+ROM_SEL.sp = 'b'0;
+
+
+!S100_BUS   =      ((!mA31 & !mA30 & !mA29 & !mA28 & !mA27 & !mA26 & !mA25 & !mA24)      	/* If RAM address is < 16M */
+		   # (!IO_PORTS));   								/* and I/O at FFFFxxxx */
+
+S100_BUS.ar = 'b'0;
+S100_BUS.sp = 'b'0;
+
+
+!INTA_CODE   =     mA16 & mA17 & mA18 & mA19;           	/* When FC0,FC1 & FC2 = 111 & A16,A17 ,A18 7 A19 = 1111 */
+                                                  
+INTA_CODE.ar = 'b'0;
+INTA_CODE.sp = 'b'0;
+
+

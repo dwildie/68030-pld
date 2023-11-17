@@ -1,0 +1,60 @@
+Name 68030_GAL0; 
+Assembly 0001; 
+Revision 1.0; 
+PartNo U28 22V10; 
+Device G22V10; 
+Company S100Computers.com; 
+Designer John Monahan; 
+Location CA,San Ramon; 
+Date 9/28/2017
+
+
+property ATMEL { xor_synthesis=on }; 
+property ATMEL { logic_doubling=on }; 
+property ATMEL { jtag=on }; 
+PROPERTY ATMEL { preassign keep }; 
+PROPERTY ATMEL { TMS_pullup=on }; 
+PROPERTY ATMEL { TDI_pullup=on }; 
+
+
+/*
+* -----------------  BOARD GAL0 IS USED TO SWITCH MASTER/SLAVE CONFIGURATION --------------- 
+* Pin assignments 
+* Make all data and address outputs fast slew and all chip selects slow 
+*/ 
+
+PIN 1  = PULSE_IN;            /* address lines  */
+PIN 2  = LA0;
+PIN 3  = LA1;
+PIN 4  = LA2;
+PIN 5  = LA3;
+PIN 6  = LA4;
+PIN 7  = LA5;
+PIN 8  = LA6;
+PIN 9  = LA7;
+PIN 10 = LA8;
+PIN 11 = LA9;
+Pin 12 = GND;
+
+Pin 13 = LA10;
+Pin 14 = LA11;
+Pin 15 = LA12;
+Pin 16 = LA13;
+Pin 17 = LA14;
+Pin 18 = LA15;
+Pin 19 = sINP;
+Pin 20 = pDBIN;
+Pin 21 = MASTER_RESET;
+Pin 22 = TMAXPU;
+Pin 23 = PULSE_OUT;
+
+                                                                                	/* Toggle Pin 22 */
+!PULSE_OUT   =    ((LA0 & !LA1 & LA2 & LA3 & !LA4 & LA5 & LA6 & LA7                /* Port 00EDH = (11)101101 */                       
+                 & !LA8 & !LA9 & !LA10 & !LA11 & !LA12 & !LA13 & !LA14 & !LA15)   
+                 & (sINP & pDBIN));
+
+TMAXPU.D    =    !TMAXPU;
+
+TMAXPU.AR   =    !MASTER_RESET;
+TMAXPU.SP   =    !TMAXPU;
+

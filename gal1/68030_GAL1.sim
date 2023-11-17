@@ -1,0 +1,93 @@
+%SIGNAL
+PIN  23 =  BOOT 
+PIN   1 =  CPU_AS 
+PIN  12 =  GND 
+PIN  21 =  INTA_CODE 
+PIN  20 =  IO_PORTS 
+PIN  19 =  ROM_SEL 
+PIN  22 =  S100_BUS 
+PIN  18 =  mA16 
+PIN  17 =  mA17 
+PIN  16 =  mA18 
+PIN  15 =  mA19 
+PIN  14 =  mA20 
+PIN  13 =  mA21 
+PIN  11 =  mA22 
+PIN  10 =  mA23 
+PIN   9 =  mA24 
+PIN   8 =  mA25 
+PIN   7 =  mA26 
+PIN   6 =  mA27 
+PIN   5 =  mA28 
+PIN   4 =  mA29 
+PIN   3 =  mA30 
+PIN   2 =  mA31 
+%END
+
+%FIELD
+%END
+
+%EQUATION
+!INTA_CODE =>
+    mA16 & mA17 & mA18 & mA19
+
+INTA_CODE.ar IO_PORTS.ar ROM_SEL.ar S100_BUS.ar  =>
+    0 
+
+INTA_CODE.sp IO_PORTS.sp ROM_SEL.sp S100_BUS.sp  =>
+    0 
+
+!IO_PORTS =>
+    mA16 & mA17 & mA18 & mA19 & mA20 & mA21 & mA22 & mA23 & mA24 & mA25 & mA26 & mA27 & mA28 & mA29 & mA30 & mA31
+
+IO_PORTS.ar  =>
+    
+IO_PORTS.sp  =>
+    
+!ROM_SEL =>
+    !BOOT
+  # !mA16 & !mA17 & mA18 & mA19 & mA20 & mA21 & mA22 & mA23 & !mA24 & !mA25 & !mA26 & !mA27 & !mA28 & !mA29 & !mA30 & !mA31
+
+ROM_SEL.ar  =>
+    
+ROM_SEL.sp  =>
+    
+!S100_BUS =>
+    !mA24 & !mA25 & !mA26 & !mA27 & !mA28 & !mA29 & !mA30 & !mA31
+  # !IO_PORTS
+
+S100_BUS.ar  =>
+    
+S100_BUS.sp  =>
+    
+BOOT.oe  =>
+    0 
+
+INTA_CODE.oe  =>
+    1 
+
+IO_PORTS.oe  =>
+    1 
+
+ROM_SEL.oe  =>
+    1 
+
+S100_BUS.oe  =>
+    1 
+
+mA16.oe  =>
+    0 
+
+mA17.oe  =>
+    0 
+
+mA18.oe  =>
+    0 
+
+mA19.oe  =>
+    0 
+
+mA20.oe  =>
+    0 
+
+%END

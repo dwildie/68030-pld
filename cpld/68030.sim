@@ -1,0 +1,247 @@
+%SIGNAL
+PIN  64 =  ANY_IPL 
+PIN   4 =  BE0 
+PIN   5 =  BE1 
+PIN   6 =  BE2 
+PIN   8 =  BE3 
+PIN   0 =  BOARD_ACTIVE 
+PIN  39 =  BOOT 
+PIN   0 =  CD0 
+PIN   0 =  CD1 
+PIN   0 =  CD2 
+PIN   0 =  CD3 
+PIN  76 =  CLK_68K 
+PIN   2 =  CPU_AS 
+PIN  65 =  CPU_AVEC 
+PIN  34 =  CPU_DBEN 
+PIN  31 =  CPU_DS 
+PIN  37 =  CPU_DSACK0 
+PIN  36 =  CPU_DSACK1 
+PIN  46 =  CPU_ECS 
+PIN   9 =  CPU_FC0 
+PIN  10 =  CPU_FC1 
+PIN  11 =  CPU_FC2 
+PIN  75 =  CPU_RESET 
+PIN  35 =  CPU_RW 
+PIN  55 =  CPU_SIZ0 
+PIN  54 =  CPU_SIZ1 
+PIN  44 =  CPU_STERM 
+PIN  48 =  DELAY_CLK 
+PIN  27 =  DIAG_LED 
+PIN  73 =  EXTENDED_RAM_RD 
+PIN  74 =  EXTENDED_RAM_WR 
+PIN  79 =  HOLD 
+PIN  45 =  INACTIVATE_CONTROL_LINES 
+PIN  12 =  INACTIVATE_DATA_LINES 
+PIN  67 =  INTA 
+PIN  33 =  INTA_CODE 
+PIN  28 =  IO_ADDRESS 
+PIN  57 =  IO_IN 
+PIN  56 =  IO_OUT 
+PIN  83 =  MASTER_CLK 
+PIN   1 =  MASTER_RESET 
+PIN  84 =  MASTER_SLAVE 
+PIN  60 =  MEM_RD 
+PIN  58 =  MEM_WR 
+PIN  81 =  PHI 
+PIN  29 =  ROM_SEL 
+PIN  20 =  S100_16_DIR 
+PIN  21 =  S100_16_OE 
+PIN  41 =  S100_8_IN_DIR 
+PIN  22 =  S100_8_IN_OE 
+PIN  40 =  S100_8_OUT_DIR 
+PIN  24 =  S100_8_OUT_OE 
+PIN  16 =  S100_INT 
+PIN  25 =  S100_ROM_IN_OE 
+PIN  50 =  S100_SEL 
+PIN  15 =  S100_WAIT 
+PIN  52 =  SIXTN 
+PIN  80 =  TMAx 
+PIN  30 =  XFERI 
+PIN  49 =  XFERII 
+PIN  61 =  dpWR 
+PIN  69 =  mA0 
+PIN  70 =  mA1 
+PIN  18 =  mA2 
+PIN  17 =  mA3 
+PIN  77 =  pHLDA 
+PIN  51 =  pSYNC_68K 
+PIN  63 =  ppDBIN 
+PIN   0 =  reg0 
+PIN   0 =  reg1 
+PIN   0 =  reg2 
+PIN  68 =  sXTRQ 
+%END
+
+%FIELD
+%END
+
+%EQUATION
+!BE0 =>
+    !CPU_AS & mA0 & mA1
+  # !CPU_AS & CPU_SIZ0 & CPU_SIZ1 & mA0
+  # !CPU_AS & !CPU_SIZ0 & !CPU_SIZ1
+  # !CPU_AS & CPU_SIZ1 & mA1
+
+!BE1 =>
+    !CPU_AS & !mA0 & mA1
+  # !CPU_AS & !CPU_SIZ0 & !CPU_SIZ1 & !mA1
+  # !CPU_AS & CPU_SIZ0 & CPU_SIZ1 & !mA1
+  # !CPU_AS & !CPU_SIZ0 & mA0 & !mA1
+
+!BE2 =>
+    !CPU_AS & mA0 & !mA1
+  # !CPU_AS & CPU_SIZ1 & !mA1
+  # !CPU_AS & !CPU_SIZ0 & !mA1
+
+!BE3 =>
+    !CPU_AS & !mA0 & !mA1
+
+BOARD_ACTIVE =>
+    reg1
+
+CD0.t  =>
+    1 
+
+CD0.ckmux  =>
+    MASTER_CLK
+
+CD1.t  =>
+    CD0
+
+CD1.ckmux  =>
+    MASTER_CLK
+
+CD2.t  =>
+    CD0 & CD1
+
+CD2.ckmux  =>
+    MASTER_CLK
+
+CD3.t  =>
+    CD0 & CD1 & CD2
+
+CD3.ckmux  =>
+    MASTER_CLK
+
+CLK_68K =>
+    CD1
+
+CPU_AVEC =>
+    ANY_IPL
+
+!CPU_DSACK0 =>
+    S100_SEL & S100_WAIT
+  # !S100_SEL & S100_WAIT & sXTRQ
+
+!CPU_DSACK1 =>
+    S100_SEL & S100_WAIT
+  # !S100_SEL & S100_WAIT & !sXTRQ
+
+CPU_RESET =>
+    reg2
+
+CPU_STERM =>
+    1 
+
+!DIAG_LED =>
+    !CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE
+
+!EXTENDED_RAM_RD =>
+    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & IO_ADDRESS & S100_SEL
+
+!EXTENDED_RAM_WR =>
+    BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & IO_ADDRESS & S100_SEL
+
+!HOLD =>
+    reg0
+
+INACTIVATE_CONTROL_LINES =>
+    1 
+
+INACTIVATE_DATA_LINES =>
+    1 
+
+!INTA =>
+    !CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE
+
+!IO_IN =>
+    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & !IO_ADDRESS & !S100_SEL
+
+!IO_OUT =>
+    BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & !IO_ADDRESS & !S100_SEL
+
+!MEM_RD =>
+    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & IO_ADDRESS & ROM_SEL & !S100_SEL
+
+!MEM_WR =>
+    BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & IO_ADDRESS & !S100_SEL
+
+S100_16_DIR =>
+    !CPU_RW
+
+!S100_16_OE =>
+    BOARD_ACTIVE & !CPU_DBEN & ROM_SEL & !S100_SEL & !sXTRQ
+
+!S100_8_IN_DIR =>
+    CPU_RW & sXTRQ
+
+!S100_8_IN_OE =>
+    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & ROM_SEL & !S100_SEL & sXTRQ
+
+S100_8_OUT_DIR =>
+    !CPU_RW
+
+!S100_8_OUT_OE =>
+    BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & !S100_SEL & sXTRQ
+  # BOARD_ACTIVE & !CPU_DBEN & !S100_SEL & !sXTRQ
+
+!S100_ROM_IN_OE =>
+    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & !ROM_SEL & !S100_SEL
+
+!XFERI =>
+    pHLDA & reg0
+
+!XFERII =>
+    reg1
+
+!dpWR =>
+    BOARD_ACTIVE & !CPU_DS & !CPU_RW & !S100_SEL
+
+pSYNC_68K =>
+    CPU_AS & !CPU_ECS
+
+ppDBIN =>
+    BOARD_ACTIVE & !CPU_DS & CPU_RW & !S100_SEL
+
+reg0.d  =>
+    TMAx
+
+reg0.ar  =>
+    !MASTER_RESET
+
+reg0.ckmux  =>
+    !PHI
+
+reg1.d  =>
+    reg0
+
+reg1.ar  =>
+    !reg0
+
+reg1.ck  =>
+    pHLDA
+
+reg2.d  =>
+    reg1
+
+reg2.ar  =>
+    !reg1
+
+reg2.ckmux  =>
+    !PHI
+
+!sXTRQ =>
+    BOARD_ACTIVE & !CPU_SIZ0 & IO_ADDRESS & ROM_SEL & !mA0
+
+%END

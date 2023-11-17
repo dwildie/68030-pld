@@ -1,0 +1,263 @@
+Name 68030_MAIN; 
+Assembly 0002; 
+Revision 1.0 Full Size Board; 
+PartNo U10 ATF1508AS; 
+Device f1508ispplcc84; 
+Company S100Computers.com; 
+Designer John Monahan; 
+Location CA,San Ramon; 
+Date 11/29/2017; 
+
+
+property ATMEL { xor_synthesis=on }; 
+property ATMEL { logic_doubling=on }; 
+property ATMEL { jtag=on }; 
+PROPERTY ATMEL { preassign keep }; 
+PROPERTY ATMEL { TMS_pullup=on }; 
+PROPERTY ATMEL { TDI_pullup=on }; 
+
+
+/* 
+* ------ 68030 CPU BOARD V1.0  S100 Master/Slave Board with OTT RAM Connectors-----
+*
+* CPLD IS SETUP TO RUN AS A S100 BUS SLAVE DEVICE  with onboard EXTERNAL ROM <<<
+* Make all data and address outputs fast slew and all chip selects slow 
+* For IO_TEST_B, C & D code in ROM
+*/ 
+
+Pin 83 =  MASTER_CLK; 		/* Main board Oscillator ~ 8 MHz */
+Pin 2  =  CPU_AS;  		/* Active LOW */
+Pin 81 =  PHI;              	/* Local S100 bus clock signal (Phi is not the same as CLK)*/
+
+Pin 4  = BE0; 			
+Pin 5  = BE1; 
+Pin 6  = BE2; 
+Pin 8  = BE3; 
+
+Pin 9 =  CPU_FC0; 			
+Pin 10 = CPU_FC1;               	
+Pin 11 = CPU_FC2;
+Pin 15 = S100_WAIT;			/* Wait States for XRDY, RDY and Forced_Wait when LOW */
+
+Pin 16 = S100_INT;			/* S100 Bus Interrupt line from bus (Via U5) Active Low	*/
+	
+Pin 17 = mA3;				
+Pin 18 = mA2;	
+Pin 20 = S100_16_DIR;
+Pin 21 = S100_16_OE;
+Pin 22 = S100_8_IN_OE;		
+Pin 24 = S100_8_OUT_OE;		
+Pin 25 = S100_ROM_IN_OE;		/* Active LOW */
+
+Pin 27 = DIAG_LED;			/* Diagnostic LED (On if Low) */
+
+Pin 28 = IO_ADDRESS;			
+Pin 29 = ROM_SEL;
+Pin 30 = XFERI;
+
+Pin 31 = CPU_DS;				/* CPU data Strobe, active LOW */
+
+Pin 33 = INTA_CODE;                			
+Pin 34 = CPU_DBEN;        		
+
+Pin 35 = CPU_RW;				/* HIGH for read, LOW for Write */		
+
+Pin 36 = CPU_DSACK1;			
+Pin 37 = CPU_DSACK0;			
+Pin 39 = BOOT;
+
+Pin 40 = S100_8_OUT_DIR;			
+Pin 41 = S100_8_IN_DIR;
+Pin 44 = CPU_STERM;                 /* CPU_STERM* for Synchronous RAM */	
+Pin 46 = CPU_ECS;			 
+Pin 48 = DELAY_CLK;			
+
+Pin 49 = XFERII;			
+Pin 50 = S100_SEL;
+Pin 51 = pSYNC_68K;
+Pin 52 = SIXTN;					/* Input from S100 bus */		
+Pin 54 = CPU_SIZ1;			
+Pin 55 = CPU_SIZ0;
+Pin 56 = IO_OUT;					/* S100 bus signals */	
+Pin 57 = IO_IN;
+
+Pin 58 = MEM_WR;
+Pin 60 = MEM_RD;
+Pin 61 = dpWR;			
+Pin 63 = ppDBIN;
+Pin 64 = ANY_IPL;
+
+Pin 65 = CPU_AVEC;
+Pin 67 = INTA;				/* INTA* from CPU, Active LOW */
+Pin 68 = sXTRQ;        /* S100 bus signal to flag a 16 bit data transfer, Active LOW, unlatched */
+
+Pin 69 = mA0;				/* S100 Bus A0 address line */
+Pin 70 = mA1;				/* S100 Bus A1 address line */
+
+Pin 73 = EXTENDED_RAM_RD;		
+Pin 74 = EXTENDED_RAM_WR;
+
+Pin 75 = CPU_RESET;
+Pin 76 = CLK_68K;			/* Clock directly to CPU and S100 Bus (Phi) */
+Pin 77 = pHLDA;			/* S100 bus line to/from CPU Board to recieve/request bus control */
+Pin 79 = HOLD;			/* S100 bus line to/from CPU board to request/recieve bus control */
+Pin 80 = TMAx;
+
+Pin 84 = MASTER_SLAVE;  		/* High Board is bus master, low is a bus slave, currently unused */           
+Pin 1  = MASTER_RESET;  		/* S100 Bus reset. Active LOW */           
+
+Pin 12 = INACTIVATE_DATA_LINES;	/* S100 bus control of status lines */
+Pin 45 = INACTIVATE_CONTROL_LINES;	/* S100 bus control of data, address and control lines */
+
+/* 
+*  Need to divide the 32-40MHz Oscillator down to obtain CPU and S100 bus clocks.
+*  Note CLK becomes PHI on bus via U115. It is different because when Z80 is bus master,  
+*  Remember PHI is not the same as CLK.
+*  Note the CPU will run at two clock speeds. Normally at 9MHz. But if the GAL U108 "SLOW_RAM"
+*  signal is LOW it will run at 4.5MHz
+*/
+
+
+Pinnode = [CD3..0];
+						/* MASTER_CLK = 40 MHz */
+CD0.t = 'b'1;				/* 20      MHz */
+CD1.t = CD0; 				/* 10      MHz */
+CD2.t = CD0 & CD1; 			/* 5       MHz */
+CD3.t = CD0 & CD1 & CD2; 		/* 2.25    MHz */
+
+[CD3..0].ckmux = MASTER_CLK;
+    			         
+CLK_68K    =   CD1;
+
+
+
+
+/*  Need to activate this slave when TMAx goes high */
+
+Pinnode =  [reg2..0];			/* Need 3 D type Flip Flops */ 
+Pinnode = BOARD_ACTIVE;		/* BOARD_ACTIVE HIGH if 68030 has control of the bus, see below */
+
+reg0.d = TMAx;				/* TMAx goes low-> high */
+reg0.ckmux = !PHI;
+reg0.ar = !MASTER_RESET;		/* Return to high on reset */
+!HOLD   = reg0;				/* Lower S100 bus HOLD line */
+
+
+!XFERI = reg0 & pHLDA;			/* Activate the S100 bus Control lines, when pHLDA comes back */ 
+
+reg1.d  = reg0;
+reg1.ck = pHLDA;				/* S100 bus grants bus by raising pHLDA line */
+reg1.ar = !reg0;
+
+BOARD_ACTIVE = reg1;			/* HIGH when bus control comes to this 68030 Board */
+!XFERII = reg1;	 			/* LOW to activate S100 bus Status, Data & Address lines */ 
+
+reg2.d  = reg1;
+reg2.ckmux = !PHI;   				       
+reg2.ar = !reg1;
+
+
+CPU_RESET  =  reg2;			/* Activate the CPU, Raise it's reset pin */	
+
+
+INACTIVATE_DATA_LINES =  'b'1;	/* Just to be safe, for now,  pull these signals high */
+INACTIVATE_CONTROL_LINES =  'b'1;
+
+CPU_STERM = 'b'1;				/* No Synchronous RAM timing */
+
+									
+                			       /* ----------- S100 Bus Status signals ---------------------- */
+
+								/* CPU_RW, LOW for write, but remember inverted by U33. */
+!MEM_WR  =    !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & !S100_SEL; 
+
+        							/* RAM addressing so IO_ADDRESS will be HIGH */
+!MEM_RD  =     CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & ROM_SEL & !S100_SEL;
+
+								/* Port addressing so IO_ADDRESS will be LOW */
+!IO_OUT  =    !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;    
+
+!IO_IN   =     CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;  
+	
+!INTA    =    !INTA_CODE & CPU_FC0 & CPU_FC1 & CPU_FC2 & !CPU_AS;		
+
+!DIAG_LED =  !INTA_CODE & CPU_FC0 & CPU_FC1 & CPU_FC2 & !CPU_AS; 
+					
+
+
+CPU_AVEC = ANY_IPL;			/* Interrupt detected by u20 pin 14 */
+
+  				            /* ----------- S100 Bus Control signals ---------------------- */
+
+ pSYNC_68K =   CPU_AS & !CPU_ECS;				/* AS* is low when the bus has a valid address */	 
+
+ ppDBIN   =    !CPU_DS &  CPU_RW & BOARD_ACTIVE & !S100_SEL;	/* pDBIN is active HIGH on S100 bus */
+
+!dpWR     =   !CPU_DS & !CPU_RW & BOARD_ACTIVE & !S100_SEL; 	/* pWR* is active LOW on S100 bus */
+
+
+									/* 8 Bit Data S100 bus Read */
+!S100_8_IN_OE    =  CPU_RW  & !CPU_DBEN  & sXTRQ  & BOARD_ACTIVE & ROM_SEL & !S100_SEL;      
+
+       /* 8 Bit Data S100 bus Write */
+       /* 16 Bit Data S100 bus LOW byte R/W */
+       
+!S100_8_OUT_OE   =  ((!CPU_RW  & !CPU_DBEN  & sXTRQ  & BOARD_ACTIVE  & !S100_SEL)
+			 # (!CPU_DBEN  & !sXTRQ  & BOARD_ACTIVE  & !S100_SEL));                     	
+
+!S100_8_IN_DIR  =   CPU_RW & sXTRQ;		/* 8 bit only */
+
+ S100_8_OUT_DIR  =  !CPU_RW;				/* Use for both 8 & 16 bit data */		
+
+ S100_16_DIR     =  !CPU_RW;				/* Use for both 8 & 16 bit data */		
+
+              						/* 16 Bit Data S100_SEL HIGH byte R/W */
+!S100_16_OE     =  !CPU_DBEN  & !sXTRQ  & BOARD_ACTIVE  & ROM_SEL & !S100_SEL;	
+
+								/* Read Onboard ROM, active LOW at 0FC0000H */
+!S100_ROM_IN_OE  =  !CPU_DBEN &  CPU_RW & BOARD_ACTIVE & !ROM_SEL & !S100_SEL; 
+
+!CPU_DSACK1    =  ((S100_SEL & S100_WAIT)		/* Always 32 bit Transfer for OTT RAM */
+               #  (!sXTRQ & S100_WAIT & !S100_SEL));	/* 16 bit Transfer for S100 bus RAM */
+
+!CPU_DSACK0    =  ((S100_SEL  & S100_WAIT) 			/* Always 32 bit Transfers  for OTT RAM */
+                 # (sXTRQ  & S100_WAIT & !S100_SEL));  	/*  8 bit Transfer for S100 bus RAM */
+
+
+
+/*  16 Bit RAM on even addresss, No 16 bit ports */
+
+/* !sXTRQ    =  CPU_SIZ1 & !CPU_SIZ0 & !mA1 & !mA0  & BOARD_ACTIVE  & ROM_SEL & IO_ADDRESS ;    */
+
+!sXTRQ = !CPU_SIZ0 & !mA0 & BOARD_ACTIVE & ROM_SEL & IO_ADDRESS;
+
+/*---------------- OTT RAM ACCESS -----------------------------------*/
+                    							                    
+/*  State       ACK1   ACK0   MAP   sXTRQ  WAIT  IO_ADDRESS   S100_SEL  */
+/*  32 bit RAM    0      0     0      x       1       1           1     */
+/*  16 bit RAM    0      1<--  1      0       1       1           0     */
+/*  8 bit  RAM    1<--   0     1      1       1       1           0     */
+/*  8 bit  IO     1<--   0     x      x       1       0           0     */
+/*  Wait          1<--   1<--  x      x       0       x           0     */
+
+!BE3  =        !mA1 & !mA0 & !CPU_AS;
+
+!BE2  =	((!mA1 & mA0 & !CPU_AS)
+         #  (CPU_SIZ1 & !mA1 & !CPU_AS)
+	   #  (!CPU_SIZ0 & !mA1 & !CPU_AS));
+
+!BE1  =	((mA1 & !mA0 & !CPU_AS)
+	   #  (!CPU_SIZ1 & !CPU_SIZ0  & !mA1 & !CPU_AS)
+         #  ( CPU_SIZ1 &  CPU_SIZ0  & !mA1 & !CPU_AS)
+	   #  (!CPU_SIZ0 & !mA1 & mA0 & !CPU_AS));
+
+!BE0 =      ((mA1 & mA0 & !CPU_AS)
+	   #  ( CPU_SIZ1 &  CPU_SIZ0 & mA0 & !CPU_AS)
+         #  (!CPU_SIZ1 & !CPU_SIZ0 & !CPU_AS)
+	   #  ( CPU_SIZ1 & mA1 & !CPU_AS));
+
+
+!EXTENDED_RAM_RD =  CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & S100_SEL;		
+!EXTENDED_RAM_WR = !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & S100_SEL;
+
+

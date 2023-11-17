@@ -1,0 +1,73 @@
+%SIGNAL
+PIN  12 =  GND 
+PIN   2 =  LA0 
+PIN   3 =  LA1 
+PIN   4 =  LA2 
+PIN   5 =  LA3 
+PIN   6 =  LA4 
+PIN   7 =  LA5 
+PIN   8 =  LA6 
+PIN   9 =  LA7 
+PIN  10 =  LA8 
+PIN  11 =  LA9 
+PIN  13 =  LA10 
+PIN  14 =  LA11 
+PIN  15 =  LA12 
+PIN  16 =  LA13 
+PIN  17 =  LA14 
+PIN  18 =  LA15 
+PIN  21 =  MASTER_RESET 
+PIN   1 =  PULSE_IN 
+PIN  23 =  PULSE_OUT 
+PIN  22 =  TMAXPU 
+PIN  20 =  pDBIN 
+PIN  19 =  sINP 
+%END
+
+%FIELD
+%END
+
+%EQUATION
+!PULSE_OUT =>
+    LA0 & !LA1 & LA2 & LA3 & !LA4 & LA5 & LA6 & LA7 & !LA8 & !LA9 & !LA10 & !LA11 & !LA12 & !LA13 & !LA14 & !LA15 & pDBIN & sINP
+
+TMAXPU.d  =>
+    TMAXPU
+
+TMAXPU.ar  =>
+    !MASTER_RESET
+
+TMAXPU.sp  =>
+    TMAXPU
+
+LA11.oe  =>
+    0 
+
+LA12.oe  =>
+    0 
+
+LA13.oe  =>
+    0 
+
+LA14.oe  =>
+    0 
+
+LA15.oe  =>
+    0 
+
+MASTER_RESET.oe  =>
+    0 
+
+PULSE_OUT.oe  =>
+    1 
+
+TMAXPU.oe  =>
+    1 
+
+pDBIN.oe  =>
+    0 
+
+sINP.oe  =>
+    0 
+
+%END
