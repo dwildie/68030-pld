@@ -1,17 +1,17 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sun Feb 07 13:32:08 2021
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Wed Jun 09 18:14:58 2021
 
 
-fit1508 C:\WINCUPL\S100_CPLD'S\64030\68030_WEB\68030.tt2 -CUPL -dev P1508C84 -JTAG ON
+fit1508 C:\WINCUPL\MASTER\68030_MASTER.tt2 -CUPL -dev P1508C84 -JTAG ON
 
 
 ****** Initial fitting strategy and property ******
- Pla_in_file = 68030.tt2
- Pla_out_file = 68030.tt3
- Jedec_file = 68030.jed
- Vector_file = 68030.tmv
- verilog_file = 68030.vt
+ Pla_in_file = 68030_MASTER.tt2
+ Pla_out_file = 68030_MASTER.tt3
+ Jedec_file = 68030_MASTER.jed
+ Vector_file = 68030_MASTER.tmv
+ verilog_file = 68030_MASTER.vt
  Time_file = 
- Log_file = 68030.fit
+ Log_file = 68030_MASTER.fit
  err_file = 
  Device_name = PLCC84
  Module_name = 
@@ -61,9 +61,7 @@ Performing global pin assignments ...
 
 Final global control pins assignment (if applicable)...
 -------------------------------------------------------
-PHI assigned to pin  81
 MASTER_CLK assigned to pin  83
-MASTER_RESET assigned to pin  1
 
 
 
@@ -76,17 +74,15 @@ MASTER_RESET assigned to pin  1
 Attempt to place floating signals ...
 ------------------------------------
 INACTIVATE_DATA_LINES is placed at pin 12 (MC 3)
-reg1 is placed at feedback node 603 (MC 3)
+CD3 is placed at feedback node 603 (MC 3)
 CPU_FC2 is placed at pin 11 (MC 5)
 CPU_FC1 is placed at pin 10 (MC 6)
 CPU_FC0 is placed at pin 9 (MC 8)
-CD0 is placed at feedback node 609 (MC 9)
-reg0 is placed at feedback node 610 (MC 10)
 BE3 is placed at pin 8 (MC 11)
-CD2 is placed at feedback node 612 (MC 12)
+CD0 is placed at feedback node 612 (MC 12)
 BE2 is placed at pin 6 (MC 13)
 BE1 is placed at pin 5 (MC 14)
-CD3 is placed at feedback node 615 (MC 15)
+CD2 is placed at feedback node 615 (MC 15)
 BE0 is placed at pin 4 (MC 16)
 S100_8_IN_OE is placed at pin 22 (MC 17)
 S100_16_OE is placed at pin 21 (MC 19)
@@ -134,10 +130,6 @@ EXTENDED_RAM_RD is placed at pin 73 (MC 115)
 EXTENDED_RAM_WR is placed at pin 74 (MC 117)
 CPU_RESET is placed at pin 75 (MC 118)
 CLK_68K is placed at pin 76 (MC 120)
-pHLDA is placed at pin 77 (MC 123)
-HOLD is placed at pin 79 (MC 125)
-TMAx is placed at pin 80 (MC 126)
-PHI is placed at pin 81 (MC 128)
 
                                                                                     
                                           M                                         
@@ -147,11 +139,11 @@ PHI is placed at pin 81 (MC 128)
                                           E  S               P                      
                      C C  C               R  T             C U                      
                      P P  P             C _  E             L _                      
-                     U U  U             P R  R           p K R                      
-                     _ _  _             U E  _     T H   H _ E                      
-                     F F  F B G B B B V _ S  C G P M O V L 6 S                      
-                     C C  C E N E E E C A E  L N H A L C D 8 E                      
-                     2 1  0 3 D 2 1 0 C S T  K D I x D C A K T                      
+                     U U  U             P R  R             K R                      
+                     _ _  _             U E  _             _ E                      
+                     F F  F B G B B B V _ S  C G       V   6 S                      
+                     C C  C E N E E E C A E  L N       C   8 E                      
+                     2 1  0 3 D 2 1 0 C S T  K D       C   K T                      
                     -------------------------------------------                     
                    / 11   9   7   5   3   1  83  81  79  77  75 \                  
                   /    10   8   6   4   2  84  82  80  78  76    \                 
@@ -205,68 +197,59 @@ NC = Unused I/O pins which must be unconnected on the board
 
 Universal-Interconnect-Multiplexer assignments
 ------------------------------------------------
-FanIn assignment for block A [12]
+FanIn assignment for block A [9]
 {
-CD2,CD3,CD0,CPU_SIZ1,CLK_68K,CPU_SIZ0,CPU_AS,
-TMAx,
-mA1,mA0,
-pHLDA,
-reg0,
+CD3,CPU_SIZ1,CPU_AS,CPU_SIZ0,CD2,CLK_68K,CD0,
+mA0,mA1,
 }
 Multiplexer assignment for block A
-CD2			(MC3	FB)  : MUX 1		Ref (A12fb)
-mA1			(MC11	P)   : MUX 4		Ref (G109p)
-mA0			(MC7	P)   : MUX 6		Ref (G107p)
-CD3			(MC4	FB)  : MUX 7		Ref (A15fb)
-CD0			(MC1	FB)  : MUX 11		Ref (A9fb)
-CPU_SIZ1		(MC10	P)   : MUX 13		Ref (F83p)
-TMAx			(MC12	P)   : MUX 16		Ref (H126p)
-pHLDA			(MC9	P)   : MUX 26		Ref (H123p)
-CLK_68K			(MC5	P)   : MUX 27		Ref (H120p)
-reg0			(MC2	FB)  : MUX 29		Ref (A10fb)
-CPU_SIZ0		(MC8	P)   : MUX 31		Ref (F85p)
-CPU_AS			(MC6	FB)  : MUX 34		Ref (OE2)
+CD3			(MC1	FB)  : MUX 0		Ref (A3fb)
+CPU_SIZ1		(MC8	P)   : MUX 1		Ref (F83p)
+CPU_AS			(MC5	FB)  : MUX 4		Ref (OE2)
+CPU_SIZ0		(MC7	P)   : MUX 5		Ref (F85p)
+mA0			(MC6	P)   : MUX 6		Ref (G107p)
+CD2			(MC3	FB)  : MUX 7		Ref (A15fb)
+CLK_68K			(MC4	P)   : MUX 19		Ref (H120p)
+mA1			(MC9	P)   : MUX 24		Ref (G109p)
+CD0			(MC2	FB)  : MUX 37		Ref (A12fb)
 
 FanIn assignment for block B [6]
 {
-CPU_RW,CPU_DBEN,
+CPU_DBEN,CPU_RW,
+MASTER_RESET,
 ROM_SEL,
 S100_SEL,
-reg1,
 sXTRQ,
 }
 Multiplexer assignment for block B
-reg1			(MC1	FB)  : MUX 0		Ref (A3fb)
-S100_SEL		(MC4	P)   : MUX 6		Ref (E75p)
+MASTER_RESET		(MC4	FB)  : MUX 2		Ref (GCLR)
+S100_SEL		(MC3	P)   : MUX 6		Ref (E75p)
 ROM_SEL			(MC6	P)   : MUX 7		Ref (C38p)
-CPU_RW			(MC3	P)   : MUX 12		Ref (D59p)
-sXTRQ			(MC2	P)   : MUX 24		Ref (G105p)
-CPU_DBEN		(MC5	P)   : MUX 36		Ref (D61p)
+CPU_DBEN		(MC5	P)   : MUX 8		Ref (D61p)
+CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
+sXTRQ			(MC1	P)   : MUX 22		Ref (G105p)
 
-FanIn assignment for block C [13]
+FanIn assignment for block C [11]
 {
-CPU_FC0,CPU_FC2,CPU_RW,CPU_AS,CPU_FC1,CPU_DBEN,
+CPU_FC2,CPU_FC0,CPU_DBEN,CPU_FC1,CPU_RW,CPU_AS,
 INTA_CODE,
+MASTER_RESET,
 ROM_SEL,
 S100_SEL,
-pHLDA,
-reg1,reg0,
 sXTRQ,
 }
 Multiplexer assignment for block C
-reg1			(MC1	FB)  : MUX 0		Ref (A3fb)
-S100_SEL		(MC5	P)   : MUX 6		Ref (E75p)
-CPU_FC0			(MC10	P)   : MUX 7		Ref (A8p)
-pHLDA			(MC9	P)   : MUX 8		Ref (H123p)
-INTA_CODE		(MC13	P)   : MUX 12		Ref (D64p)
-CPU_FC2			(MC12	P)   : MUX 13		Ref (A5p)
-CPU_RW			(MC4	P)   : MUX 16		Ref (D59p)
-ROM_SEL			(MC8	P)   : MUX 17		Ref (C38p)
-CPU_AS			(MC6	FB)  : MUX 22		Ref (OE2)
-sXTRQ			(MC3	P)   : MUX 24		Ref (G105p)
-CPU_FC1			(MC11	P)   : MUX 27		Ref (A6p)
-reg0			(MC2	FB)  : MUX 29		Ref (A10fb)
-CPU_DBEN		(MC7	P)   : MUX 36		Ref (D61p)
+CPU_FC2			(MC10	P)   : MUX 1		Ref (A5p)
+MASTER_RESET		(MC4	FB)  : MUX 2		Ref (GCLR)
+INTA_CODE		(MC11	P)   : MUX 6		Ref (D64p)
+CPU_FC0			(MC8	P)   : MUX 7		Ref (A8p)
+CPU_DBEN		(MC6	P)   : MUX 8		Ref (D61p)
+CPU_FC1			(MC9	P)   : MUX 9		Ref (A6p)
+S100_SEL		(MC3	P)   : MUX 10		Ref (E75p)
+CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
+CPU_AS			(MC5	FB)  : MUX 16		Ref (OE2)
+ROM_SEL			(MC7	P)   : MUX 17		Ref (C38p)
+sXTRQ			(MC1	P)   : MUX 22		Ref (G105p)
 
 FanIn assignment for block D [4]
 {
@@ -280,84 +263,76 @@ S100_SEL		(MC3	P)   : MUX 6		Ref (E75p)
 CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
 S100_WAIT		(MC4	P)   : MUX 16		Ref (B29p)
 
-FanIn assignment for block E [3]
+FanIn assignment for block E [2]
 {
 CPU_AS,CPU_ECS,
-reg1,
 }
 Multiplexer assignment for block E
-reg1			(MC1	FB)  : MUX 0		Ref (A3fb)
-CPU_AS			(MC2	FB)  : MUX 4		Ref (OE2)
-CPU_ECS			(MC3	P)   : MUX 9		Ref (E69p)
+CPU_AS			(MC1	FB)  : MUX 4		Ref (OE2)
+CPU_ECS			(MC2	P)   : MUX 9		Ref (E69p)
 
 FanIn assignment for block F [7]
 {
-CPU_RW,CPU_DS,CPU_DBEN,
+CPU_RW,CPU_DBEN,CPU_DS,
 IO_ADDRESS,
+MASTER_RESET,
 ROM_SEL,
 S100_SEL,
-reg1,
 }
 Multiplexer assignment for block F
-reg1			(MC1	FB)  : MUX 0		Ref (A3fb)
+MASTER_RESET		(MC3	FB)  : MUX 2		Ref (GCLR)
 IO_ADDRESS		(MC6	P)   : MUX 3		Ref (C40p)
-S100_SEL		(MC3	P)   : MUX 6		Ref (E75p)
+S100_SEL		(MC2	P)   : MUX 6		Ref (E75p)
 ROM_SEL			(MC5	P)   : MUX 7		Ref (C38p)
-CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
+CPU_RW			(MC1	P)   : MUX 12		Ref (D59p)
+CPU_DBEN		(MC4	P)   : MUX 26		Ref (D61p)
 CPU_DS			(MC7	P)   : MUX 35		Ref (C35p)
-CPU_DBEN		(MC4	P)   : MUX 36		Ref (D61p)
 
 FanIn assignment for block G [14]
 {
 ANY_IPL,
-CPU_SIZ0,CPU_FC0,CPU_FC1,CPU_RW,CPU_FC2,CPU_AS,CPU_DS,
+CPU_SIZ0,CPU_FC0,CPU_FC1,CPU_FC2,CPU_AS,CPU_RW,CPU_DS,
 IO_ADDRESS,INTA_CODE,
+MASTER_RESET,
 ROM_SEL,
 S100_SEL,
 mA0,
-reg1,
 }
 Multiplexer assignment for block G
-reg1			(MC1	FB)  : MUX 0		Ref (A3fb)
+MASTER_RESET		(MC3	FB)  : MUX 2		Ref (GCLR)
 IO_ADDRESS		(MC6	P)   : MUX 3		Ref (C40p)
 CPU_SIZ0		(MC8	P)   : MUX 5		Ref (F85p)
-INTA_CODE		(MC12	P)   : MUX 6		Ref (D64p)
 CPU_FC0			(MC9	P)   : MUX 7		Ref (A8p)
 CPU_FC1			(MC10	P)   : MUX 9		Ref (A6p)
-S100_SEL		(MC3	P)   : MUX 10		Ref (E75p)
-CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
+S100_SEL		(MC2	P)   : MUX 10		Ref (E75p)
+INTA_CODE		(MC12	P)   : MUX 12		Ref (D64p)
 CPU_FC2			(MC11	P)   : MUX 13		Ref (A5p)
 CPU_AS			(MC4	FB)  : MUX 16		Ref (OE2)
 ROM_SEL			(MC5	P)   : MUX 17		Ref (C38p)
 ANY_IPL			(MC14	P)   : MUX 23		Ref (G99p)
+CPU_RW			(MC1	P)   : MUX 26		Ref (D59p)
 mA0			(MC7	P)   : MUX 28		Ref (G107p)
 CPU_DS			(MC13	P)   : MUX 35		Ref (C35p)
 
-FanIn assignment for block H [7]
+FanIn assignment for block H [6]
 {
-CPU_RW,CD0,CPU_DBEN,
+CD0,CPU_RW,CPU_DBEN,
 IO_ADDRESS,
+MASTER_RESET,
 S100_SEL,
-reg1,reg0,
 }
 Multiplexer assignment for block H
-reg1			(MC1	FB)  : MUX 0		Ref (A3fb)
-S100_SEL		(MC5	P)   : MUX 6		Ref (E75p)
-reg0			(MC3	FB)  : MUX 7		Ref (A10fb)
-IO_ADDRESS		(MC7	P)   : MUX 11		Ref (C40p)
-CPU_RW			(MC4	P)   : MUX 12		Ref (D59p)
-CD0			(MC2	FB)  : MUX 15		Ref (A9fb)
-CPU_DBEN		(MC6	P)   : MUX 36		Ref (D61p)
+CD0			(MC1	FB)  : MUX 1		Ref (A12fb)
+MASTER_RESET		(MC4	FB)  : MUX 2		Ref (GCLR)
+S100_SEL		(MC3	P)   : MUX 6		Ref (E75p)
+CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
+IO_ADDRESS		(MC6	P)   : MUX 21		Ref (C40p)
+CPU_DBEN		(MC5	P)   : MUX 26		Ref (D61p)
 
-Creating JEDEC file C:\WINCUPL\S100_CPLD'S\64030\68030_WEB\68030.jed ...
+Creating JEDEC file C:\WINCUPL\MASTER\68030_MASTER.jed ...
 
 PLCC84 programmed logic:
 -----------------------------------
-!BE0 = ((!CPU_AS & mA0 & CPU_SIZ0 & CPU_SIZ1)
-	# (!CPU_AS & mA1 & CPU_SIZ1)
-	# (!CPU_AS & !CPU_SIZ0 & !CPU_SIZ1)
-	# (!CPU_AS & mA1 & mA0));
-
 BE1 = ((mA0 & mA1)
 	# (!mA1 & CPU_SIZ0 & !CPU_SIZ1)
 	# CPU_AS
@@ -366,6 +341,11 @@ BE1 = ((mA0 & mA1)
 BE2 = (mA1
 	# CPU_AS
 	# (!mA0 & !CPU_SIZ1 & CPU_SIZ0));
+
+!BE0 = ((!CPU_AS & mA0 & CPU_SIZ0 & CPU_SIZ1)
+	# (!CPU_AS & mA1 & CPU_SIZ1)
+	# (!CPU_AS & !CPU_SIZ0 & !CPU_SIZ1)
+	# (!CPU_AS & mA1 & mA0));
 
 !BE3 = (!CPU_AS & !mA0 & !mA1);
 
@@ -377,64 +357,58 @@ CPU_STERM = 1;
 
 !DIAG_LED = (!CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE);
 
-HOLD = !reg0.Q;
-
 !INTA = (!CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE);
 
 INACTIVATE_CONTROL_LINES = 1;
 
 INACTIVATE_DATA_LINES = 1;
 
-!XFERI = (pHLDA & reg0.Q);
-
 S100_16_DIR = !CPU_RW;
 
 S100_8_OUT_DIR = !CPU_RW;
 
-XFERII = !reg1.Q;
-
 pSYNC_68K = (CPU_AS & !CPU_ECS);
 
-reg0.D = TMAx;
+XFERII = 0;
 
-reg1.D = reg0.Q;
+XFERI = 0;
 
-CPU_RESET.D = reg1.Q;
+CPU_RESET = MASTER_RESET;
 
-!EXTENDED_RAM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & S100_SEL & reg1.Q);
+!EXTENDED_RAM_RD = (!CPU_DBEN & CPU_RW & IO_ADDRESS & MASTER_RESET & S100_SEL);
 
-!EXTENDED_RAM_RD = (!CPU_DBEN & CPU_RW & IO_ADDRESS & S100_SEL & reg1.Q);
+!MEM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & MASTER_RESET & !S100_SEL);
 
-!IO_OUT = (!CPU_DBEN & !CPU_RW & !IO_ADDRESS & !S100_SEL & reg1.Q);
+!EXTENDED_RAM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & MASTER_RESET & S100_SEL);
 
-!IO_IN = (!CPU_DBEN & CPU_RW & !IO_ADDRESS & !S100_SEL & reg1.Q);
+!IO_IN = (!CPU_DS & CPU_RW & !IO_ADDRESS & MASTER_RESET & !S100_SEL);
 
-!MEM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & !S100_SEL & reg1.Q);
+!IO_OUT = (!CPU_DBEN & !CPU_RW & !IO_ADDRESS & MASTER_RESET & !S100_SEL);
 
-!MEM_RD = (!CPU_DBEN & CPU_RW & IO_ADDRESS & ROM_SEL & !S100_SEL & reg1.Q);
+!MEM_RD = (!CPU_DS & CPU_RW & IO_ADDRESS & MASTER_RESET & ROM_SEL & !S100_SEL);
 
-!S100_ROM_IN_OE = (!CPU_DBEN & CPU_RW & !ROM_SEL & !S100_SEL & reg1.Q);
+ppDBIN = (MASTER_RESET & !CPU_DS & CPU_RW & !S100_SEL);
 
-!dpWR = (!CPU_DS & !CPU_RW & !S100_SEL & reg1.Q);
+!S100_ROM_IN_OE = (!CPU_DBEN & CPU_RW & MASTER_RESET & !ROM_SEL & !S100_SEL);
 
-ppDBIN = (reg1.Q & !CPU_DS & CPU_RW & !S100_SEL);
+!dpWR = (!CPU_DS & !CPU_RW & MASTER_RESET & !S100_SEL);
 
-!sXTRQ = (!CPU_SIZ0 & IO_ADDRESS & ROM_SEL & !mA0 & reg1.Q);
-
-CPU_DSACK1 = (!S100_WAIT
-	# (!S100_SEL & sXTRQ));
+!sXTRQ = (!CPU_SIZ0 & IO_ADDRESS & MASTER_RESET & ROM_SEL & !mA0);
 
 CPU_DSACK0 = (!S100_WAIT
 	# (!S100_SEL & !sXTRQ));
 
-!S100_8_IN_OE = (sXTRQ & !CPU_DBEN & CPU_RW & ROM_SEL & !S100_SEL & reg1.Q);
+!S100_16_OE = (!sXTRQ & !CPU_DBEN & MASTER_RESET & ROM_SEL & !S100_SEL);
 
-!S100_16_OE = (!sXTRQ & !CPU_DBEN & ROM_SEL & !S100_SEL & reg1.Q);
+CPU_DSACK1 = (!S100_WAIT
+	# (!S100_SEL & sXTRQ));
 
 !S100_8_IN_DIR = (sXTRQ & CPU_RW);
 
-!S100_8_OUT_OE = ((!CPU_DBEN & !S100_SEL & reg1.Q & !sXTRQ)
-	# (!CPU_DBEN & !S100_SEL & reg1.Q & !CPU_RW));
+!S100_8_IN_OE = (sXTRQ & !CPU_DBEN & CPU_RW & MASTER_RESET & ROM_SEL & !S100_SEL);
+
+!S100_8_OUT_OE = ((!CPU_DBEN & MASTER_RESET & !S100_SEL & !sXTRQ)
+	# (!CPU_DBEN & MASTER_RESET & !S100_SEL & !CPU_RW));
 
 CD3.D = !CD3.Q;
 
@@ -443,18 +417,6 @@ CD2.D = !CD2.Q;
 CD0.D = !CD0.Q;
 
 CLK_68K.C = MASTER_CLK;
-
-reg0.C = !PHI;
-
-reg0.AR = !MASTER_RESET;
-
-reg1.C = pHLDA;
-
-reg1.AR = !reg0.Q;
-
-CPU_RESET.C = !PHI;
-
-CPU_RESET.AR = !reg1.Q;
 
 CD3.C = MASTER_CLK;
 
@@ -527,16 +489,10 @@ Pin 73 = EXTENDED_RAM_RD; /* MC 115 */
 Pin 74 = EXTENDED_RAM_WR; /* MC 117 */ 
 Pin 75 = CPU_RESET; /* MC 118 */ 
 Pin 76 = CLK_68K; /* MC 120 */ 
-Pin 77 = pHLDA; /* MC 123 */ 
-Pin 79 = HOLD; /* MC 125 */ 
-Pin 80 = TMAx; /* MC 126 */ 
-Pin 81 = PHI; /* MC 128 */ 
 Pin 83 = MASTER_CLK;
-PINNODE 603 = reg1; /* MC 3 Feedback */
-PINNODE 609 = CD0; /* MC 9 Feedback */
-PINNODE 610 = reg0; /* MC 10 Feedback */
-PINNODE 612 = CD2; /* MC 12 Feedback */
-PINNODE 615 = CD3; /* MC 15 Feedback */
+PINNODE 603 = CD3; /* MC 3 Feedback */
+PINNODE 612 = CD0; /* MC 12 Feedback */
+PINNODE 615 = CD2; /* MC 15 Feedback */
 
 ** Resource Usage **
 
@@ -558,19 +514,19 @@ For input only = INPUT.
 MCell Pin# Oe   PinDrive                 DCERP  FBDrive  DCERP  Foldback  CascadeOut     TotPT output_slew
 MC1   0         --                              --              --        --             0     slow
 MC2   0         --                              --              --        --             0     slow
-MC3   12   on   INACTIVATE_DATA_LINES    C----  reg1     Dc-r-  --        --             4     slow
+MC3   12   on   INACTIVATE_DATA_LINES    C----  CD3      Dge--  --        --             3     slow
 MC4   0         --                              --              --        --             0     slow
 MC5   11   --   CPU_FC2                  INPUT  --              --        --             0     slow
 MC6   10   --   CPU_FC1                  INPUT  --              --        --             0     slow
 MC7   0         --                              --              --        --             0     slow
 MC8   9    --   CPU_FC0                  INPUT  --              --        --             0     slow
-MC9   0         --                              CD0      Dg---  --        --             1     slow
-MC10  0         --                              reg0     Dg-g-  --        --             1     slow
+MC9   0         --                              --              --        --             0     slow
+MC10  0         --                              --              --        --             0     slow
 MC11  8    on   BE3                      C----  --              --        --             1     slow
-MC12  0         --                              CD2      Dge--  --        --             2     slow
+MC12  0         --                              CD0      Dg---  --        --             1     slow
 MC13  6    on   BE2                      C----  --              --        --             3     slow
 MC14  5    on   BE1                      C----  --              --        --             4     slow
-MC15  0         --                              CD3      Dge--  --        --             2     slow
+MC15  0         --                              CD2      Dge--  --        --             2     slow
 MC16  4    on   BE0                      C----  --              --        --             4     slow
 MC17  22   on   S100_8_IN_OE             C----  --              --        --             1     slow
 MC18  0         --                              --              --        --             0     slow
@@ -592,7 +548,7 @@ MC33  0         --                              --              --        --    
 MC34  0         --                              --              --        --             0     slow
 MC35  31   --   CPU_DS                   INPUT  --              --        --             0     slow
 MC36  0         --                              --              --        --             0     slow
-MC37  30   on   XFERI                    C----  --              --        --             1     slow
+MC37  30   on   XFERI                    C----  --              --        --             0     slow
 MC38  29   --   ROM_SEL                  INPUT  --              --        --             0     slow
 MC39  0         --                              --              --        --             0     slow
 MC40  28   --   IO_ADDRESS               INPUT  --              --        --             0     slow
@@ -628,7 +584,7 @@ MC69  46   --   CPU_ECS                  INPUT  --              --        --    
 MC70  0         --                              --              --        --             0     slow
 MC71  0         --                              --              --        --             0     slow
 MC72  48        --                              --              --        --             0     slow
-MC73  49   on   XFERII                   C----  --              --        --             1     slow
+MC73  49   on   XFERII                   C----  --              --        --             0     slow
 MC74  0         --                              --              --        --             0     slow
 MC75  50   --   S100_SEL                 INPUT  --              --        --             0     slow
 MC76  0         --                              --              --        --             0     slow
@@ -673,43 +629,43 @@ MC114 0         --                              --              --        --    
 MC115 73   on   EXTENDED_RAM_RD          C----  --              --        --             1     slow
 MC116 0         --                              --              --        --             0     slow
 MC117 74   on   EXTENDED_RAM_WR          C----  --              --        --             1     slow
-MC118 75   on   CPU_RESET                Dg-r-  --              --        --             2     slow
+MC118 75   on   CPU_RESET                C----  --              --        --             1     slow
 MC119 0         --                              --              --        --             0     slow
 MC120 76   on   CLK_68K                  Tg---  --              --        --             1     slow
 MC121 0         --                              --              --        --             0     slow
 MC122 0         --                              --              --        --             0     slow
-MC123 77   --   pHLDA                    INPUT  --              --        --             0     slow
+MC123 77        --                              --              --        --             0     slow
 MC124 0         --                              --              --        --             0     slow
-MC125 79   on   HOLD                     C----  --              --        --             1     slow
-MC126 80   --   TMAx                     INPUT  --              --        --             0     slow
+MC125 79        --                              --              --        --             0     slow
+MC126 80        --                              --              --        --             0     slow
 MC127 0         --                              --              --        --             0     slow
-MC128 81   --   PHI                      INPUT  --              --        --             0     slow
+MC128 81        --                              --              --        --             0     slow
 MC0   2         CPU_AS                   INPUT  --              --        --             0     slow
 MC0   1         MASTER_RESET             INPUT  --              --        --             0     slow
 MC0   84        --                              --              --        --             0     slow
 MC0   83        MASTER_CLK               INPUT  --              --        --             0     slow
 
 Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
-A: LC1	- LC16		10/16(62%)	8/16(50%)	0/16(0%)	22/80(27%)	(12)	0
+A: LC1	- LC16		8/16(50%)	8/16(50%)	0/16(0%)	18/80(22%)	(9)	0
 B: LC17	- LC32		3/16(18%)	5/16(31%)	0/16(0%)	3/80(3%)	(6)	0
-C: LC33	- LC48		4/16(25%)	8/16(50%)	0/16(0%)	5/80(6%)	(13)	0
+C: LC33	- LC48		4/16(25%)	8/16(50%)	0/16(0%)	4/80(5%)	(11)	0
 D: LC49	- LC64		4/16(25%)	7/16(43%)	0/16(0%)	6/80(7%)	(4)	0
-E: LC65	- LC80		4/16(25%)	6/16(37%)	0/16(0%)	2/80(2%)	(3)	0
+E: LC65	- LC80		4/16(25%)	6/16(37%)	0/16(0%)	1/80(1%)	(2)	0
 F: LC81	- LC96		5/16(31%)	8/16(50%)	0/16(0%)	5/80(6%)	(7)	0
 G: LC97	- LC112		4/16(25%)	8/16(50%)	0/16(0%)	4/80(5%)	(14)	0
-H: LC113- LC128		5/16(31%)	8/16(50%)	0/16(0%)	6/80(7%)	(7)	0
+H: LC113- LC128		4/16(25%)	4/16(25%)	0/16(0%)	4/80(5%)	(6)	0
 
 Total dedicated input used:	3/4 	(75%)
-Total I/O pins used		58/64 	(90%)
-Total Logic cells used 		39/128 	(30%)
-Total Flip-Flop used 		7/128 	(5%)
+Total I/O pins used		54/64 	(84%)
+Total Logic cells used 		36/128 	(28%)
+Total Flip-Flop used 		4/128 	(3%)
 Total Foldback logic used 	0/128 	(0%)
-Total Nodes+FB/MCells 		39/128 	(30%)
+Total Nodes+FB/MCells 		36/128 	(28%)
 Total cascade used 		0
-Total input pins 		27
-Total output pins 		34
-Total Pts 			53
-Creating pla file C:\WINCUPL\S100_CPLD'S\64030\68030_WEB\68030.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
+Total input pins 		24
+Total output pins 		33
+Total Pts 			45
+Creating pla file C:\WINCUPL\MASTER\68030_MASTER.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
 
 ----------------  End fitter, Design FITS
 $Device PLCC84 fits 

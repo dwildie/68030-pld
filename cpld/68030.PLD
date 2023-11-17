@@ -1,12 +1,12 @@
-Name 68030_MAIN; 
+Name 68030_MASTER; 
 Assembly 0002; 
-Revision 1.0 Full Size Board; 
+Revision 1.1 Full Size Board; 
 PartNo U10 ATF1508AS; 
 Device f1508ispplcc84; 
 Company S100Computers.com; 
 Designer John Monahan; 
 Location CA,San Ramon; 
-Date 11/29/2017; 
+Date 24/05/2020; 
 
 
 property ATMEL { xor_synthesis=on }; 
@@ -20,7 +20,7 @@ PROPERTY ATMEL { TDI_pullup=on };
 /* 
 * ------ 68030 CPU BOARD V1.0  S100 Master/Slave Board with OTT RAM Connectors-----
 *
-* CPLD IS SETUP TO RUN AS A S100 BUS SLAVE DEVICE  with onboard EXTERNAL ROM <<<
+* CPLD IS SETUP TO RUN AS A S100 BUS MASTER DEVICE  with onboard EXTERNAL ROM <<<
 * Make all data and address outputs fast slew and all chip selects slow 
 * For IO_TEST_B, C & D code in ROM
 */ 
@@ -137,28 +137,11 @@ CLK_68K    =   CD1;
 Pinnode =  [reg2..0];			/* Need 3 D type Flip Flops */ 
 Pinnode = BOARD_ACTIVE;		/* BOARD_ACTIVE HIGH if 68030 has control of the bus, see below */
 
-reg0.d = TMAx;				/* TMAx goes low-> high */
-reg0.ckmux = !PHI;
-reg0.ar = !MASTER_RESET;		/* Return to high on reset */
-!HOLD   = reg0;				/* Lower S100 bus HOLD line */
+BOARD_ACTIVE = MASTER_RESET;
+CPU_RESET = BOARD_ACTIVE;
 
-
-!XFERI = reg0 & pHLDA;			/* Activate the S100 bus Control lines, when pHLDA comes back */ 
-
-reg1.d  = reg0;
-reg1.ck = pHLDA;				/* S100 bus grants bus by raising pHLDA line */
-reg1.ar = !reg0;
-
-BOARD_ACTIVE = reg1;			/* HIGH when bus control comes to this 68030 Board */
-!XFERII = reg1;	 			/* LOW to activate S100 bus Status, Data & Address lines */ 
-
-reg2.d  = reg1;
-reg2.ckmux = !PHI;   				       
-reg2.ar = !reg1;
-
-
-CPU_RESET  =  reg2;			/* Activate the CPU, Raise it's reset pin */	
-
+XFERI = 'b'0;              /* Hold these low */
+XFERII = 'b'0;
 
 INACTIVATE_DATA_LINES =  'b'1;	/* Just to be safe, for now,  pull these signals high */
 INACTIVATE_CONTROL_LINES =  'b'1;
@@ -172,12 +155,12 @@ CPU_STERM = 'b'1;				/* No Synchronous RAM timing */
 !MEM_WR  =    !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & !S100_SEL; 
 
         							/* RAM addressing so IO_ADDRESS will be HIGH */
-!MEM_RD  =     CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & IO_ADDRESS & ROM_SEL & !S100_SEL;
+!MEM_RD  =     CPU_RW & !CPU_DS  & BOARD_ACTIVE  & IO_ADDRESS & ROM_SEL & !S100_SEL;
 
 								/* Port addressing so IO_ADDRESS will be LOW */
 !IO_OUT  =    !CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;    
 
-!IO_IN   =     CPU_RW & !CPU_DBEN  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;  
+!IO_IN   =     CPU_RW & !CPU_DS  & BOARD_ACTIVE  & !IO_ADDRESS & !S100_SEL;  
 	
 !INTA    =    !INTA_CODE & CPU_FC0 & CPU_FC1 & CPU_FC2 & !CPU_AS;		
 
@@ -226,10 +209,10 @@ CPU_AVEC = ANY_IPL;			/* Interrupt detected by u20 pin 14 */
 
 
 /*  16 Bit RAM on even addresss, No 16 bit ports */
+/* !sXTRQ    =  CPU_SIZ1 & !CPU_SIZ0 & !mA1 & !mA0  & BOARD_ACTIVE  & ROM_SEL & IO_ADDRESS ; */
+!sXTRQ    =  !CPU_SIZ0 & !mA0  & BOARD_ACTIVE  & ROM_SEL & IO_ADDRESS ;    
 
-/* !sXTRQ    =  CPU_SIZ1 & !CPU_SIZ0 & !mA1 & !mA0  & BOARD_ACTIVE  & ROM_SEL & IO_ADDRESS ;    */
 
-!sXTRQ = !CPU_SIZ0 & !mA0 & BOARD_ACTIVE & ROM_SEL & IO_ADDRESS;
 
 /*---------------- OTT RAM ACCESS -----------------------------------*/
                     							                    

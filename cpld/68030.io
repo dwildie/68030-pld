@@ -1,19 +1,17 @@
-CHIP "C:\WINCUPL\S100_CPLD'S\64030\68030_WEB\68030"
+CHIP "C:\WINCUPL\MASTER\68030_MASTER"
 BEGIN
 
     DEVICE = "PLCC84";
     "INACTIVATE_DATA_LINES"                   : OUTPUT_PIN = 12 ;
-    "reg1"                                    : NODE_NUM = 603 ;
+    "CD3"                                     : NODE_NUM = 603 ;
     "CPU_FC2"                                 : INPUT_PIN = 11 ;
     "CPU_FC1"                                 : INPUT_PIN = 10 ;
     "CPU_FC0"                                 : INPUT_PIN = 9 ;
-    "CD0"                                     : NODE_NUM = 609 ;
-    "reg0"                                    : NODE_NUM = 610 ;
     "BE3"                                     : OUTPUT_PIN = 8 ;
-    "CD2"                                     : NODE_NUM = 612 ;
+    "CD0"                                     : NODE_NUM = 612 ;
     "BE2"                                     : OUTPUT_PIN = 6 ;
     "BE1"                                     : OUTPUT_PIN = 5 ;
-    "CD3"                                     : NODE_NUM = 615 ;
+    "CD2"                                     : NODE_NUM = 615 ;
     "BE0"                                     : OUTPUT_PIN = 4 ;
     "S100_8_IN_OE"                            : OUTPUT_PIN = 22 ;
     "S100_16_OE"                              : OUTPUT_PIN = 21 ;
@@ -61,10 +59,6 @@ BEGIN
     "EXTENDED_RAM_WR"                         : OUTPUT_PIN = 74 ;
     "CPU_RESET"                               : OUTPUT_PIN = 75 ;
     "CLK_68K"                                 : OUTPUT_PIN = 76 ;
-    "pHLDA"                                   : INPUT_PIN = 77 ;
-    "HOLD"                                    : OUTPUT_PIN = 79 ;
-    "TMAx"                                    : INPUT_PIN = 80 ;
-    "PHI"                                     : INPUT_PIN = 81 ;
     "CPU_AS"                                  : INPUT_PIN = 2 ;
     "MASTER_CLK"                              : INPUT_PIN = 83 ;
     "MASTER_RESET"                            : INPUT_PIN = 1 ;

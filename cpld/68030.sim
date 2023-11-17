@@ -98,7 +98,7 @@ PIN  68 =  sXTRQ
     !CPU_AS & !mA0 & !mA1
 
 BOARD_ACTIVE =>
-    reg1
+    MASTER_RESET
 
 CD0.t  =>
     1 
@@ -139,7 +139,7 @@ CPU_AVEC =>
   # !S100_SEL & S100_WAIT & !sXTRQ
 
 CPU_RESET =>
-    reg2
+    BOARD_ACTIVE
 
 CPU_STERM =>
     1 
@@ -153,9 +153,6 @@ CPU_STERM =>
 !EXTENDED_RAM_WR =>
     BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & IO_ADDRESS & S100_SEL
 
-!HOLD =>
-    reg0
-
 INACTIVATE_CONTROL_LINES =>
     1 
 
@@ -166,13 +163,13 @@ INACTIVATE_DATA_LINES =>
     !CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE
 
 !IO_IN =>
-    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & !IO_ADDRESS & !S100_SEL
+    BOARD_ACTIVE & !CPU_DS & CPU_RW & !IO_ADDRESS & !S100_SEL
 
 !IO_OUT =>
     BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & !IO_ADDRESS & !S100_SEL
 
 !MEM_RD =>
-    BOARD_ACTIVE & !CPU_DBEN & CPU_RW & IO_ADDRESS & ROM_SEL & !S100_SEL
+    BOARD_ACTIVE & !CPU_DS & CPU_RW & IO_ADDRESS & ROM_SEL & !S100_SEL
 
 !MEM_WR =>
     BOARD_ACTIVE & !CPU_DBEN & !CPU_RW & IO_ADDRESS & !S100_SEL
@@ -199,11 +196,11 @@ S100_8_OUT_DIR =>
 !S100_ROM_IN_OE =>
     BOARD_ACTIVE & !CPU_DBEN & CPU_RW & !ROM_SEL & !S100_SEL
 
-!XFERI =>
-    pHLDA & reg0
+XFERI =>
+    0 
 
-!XFERII =>
-    reg1
+XFERII =>
+    0 
 
 !dpWR =>
     BOARD_ACTIVE & !CPU_DS & !CPU_RW & !S100_SEL
@@ -213,33 +210,6 @@ pSYNC_68K =>
 
 ppDBIN =>
     BOARD_ACTIVE & !CPU_DS & CPU_RW & !S100_SEL
-
-reg0.d  =>
-    TMAx
-
-reg0.ar  =>
-    !MASTER_RESET
-
-reg0.ckmux  =>
-    !PHI
-
-reg1.d  =>
-    reg0
-
-reg1.ar  =>
-    !reg0
-
-reg1.ck  =>
-    pHLDA
-
-reg2.d  =>
-    reg1
-
-reg2.ar  =>
-    !reg1
-
-reg2.ckmux  =>
-    !PHI
 
 !sXTRQ =>
     BOARD_ACTIVE & !CPU_SIZ0 & IO_ADDRESS & ROM_SEL & !mA0
