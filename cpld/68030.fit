@@ -1,17 +1,17 @@
-Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Wed Jun 09 18:14:58 2021
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Sun Mar 28 09:50:20 2021
 
 
-fit1508 C:\WINCUPL\MASTER\68030_MASTER.tt2 -CUPL -dev P1508C84 -JTAG ON
+fit1508 C:\WINCUPL\68030\68030_MASTER_S.tt2 -CUPL -dev P1508C84 -JTAG ON
 
 
 ****** Initial fitting strategy and property ******
- Pla_in_file = 68030_MASTER.tt2
- Pla_out_file = 68030_MASTER.tt3
- Jedec_file = 68030_MASTER.jed
- Vector_file = 68030_MASTER.tmv
- verilog_file = 68030_MASTER.vt
+ Pla_in_file = 68030_MASTER_S.tt2
+ Pla_out_file = 68030_MASTER_S.tt3
+ Jedec_file = 68030_MASTER_S.jed
+ Vector_file = 68030_MASTER_S.tmv
+ verilog_file = 68030_MASTER_S.vt
  Time_file = 
- Log_file = 68030_MASTER.fit
+ Log_file = 68030_MASTER_S.fit
  err_file = 
  Device_name = PLCC84
  Module_name = 
@@ -61,6 +61,7 @@ Performing global pin assignments ...
 
 Final global control pins assignment (if applicable)...
 -------------------------------------------------------
+PHI assigned to pin  81
 MASTER_CLK assigned to pin  83
 
 
@@ -74,15 +75,15 @@ MASTER_RESET assigned to pin  1
 Attempt to place floating signals ...
 ------------------------------------
 INACTIVATE_DATA_LINES is placed at pin 12 (MC 3)
-CD3 is placed at feedback node 603 (MC 3)
 CPU_FC2 is placed at pin 11 (MC 5)
 CPU_FC1 is placed at pin 10 (MC 6)
 CPU_FC0 is placed at pin 9 (MC 8)
+CD0 is placed at feedback node 610 (MC 10)
 BE3 is placed at pin 8 (MC 11)
-CD0 is placed at feedback node 612 (MC 12)
+CD2 is placed at feedback node 612 (MC 12)
 BE2 is placed at pin 6 (MC 13)
 BE1 is placed at pin 5 (MC 14)
-CD2 is placed at feedback node 615 (MC 15)
+CD3 is placed at feedback node 615 (MC 15)
 BE0 is placed at pin 4 (MC 16)
 S100_8_IN_OE is placed at pin 22 (MC 17)
 S100_16_OE is placed at pin 21 (MC 19)
@@ -130,6 +131,8 @@ EXTENDED_RAM_RD is placed at pin 73 (MC 115)
 EXTENDED_RAM_WR is placed at pin 74 (MC 117)
 CPU_RESET is placed at pin 75 (MC 118)
 CLK_68K is placed at pin 76 (MC 120)
+pHLDA is placed at pin 77 (MC 123)
+PHI is placed at pin 81 (MC 128)
 
                                                                                     
                                           M                                         
@@ -139,11 +142,11 @@ CLK_68K is placed at pin 76 (MC 120)
                                           E  S               P                      
                      C C  C               R  T             C U                      
                      P P  P             C _  E             L _                      
-                     U U  U             P R  R             K R                      
-                     _ _  _             U E  _             _ E                      
-                     F F  F B G B B B V _ S  C G       V   6 S                      
-                     C C  C E N E E E C A E  L N       C   8 E                      
-                     2 1  0 3 D 2 1 0 C S T  K D       C   K T                      
+                     U U  U             P R  R           p K R                      
+                     _ _  _             U E  _           H _ E                      
+                     F F  F B G B B B V _ S  C G P     V L 6 S                      
+                     C C  C E N E E E C A E  L N H     C D 8 E                      
+                     2 1  0 3 D 2 1 0 C S T  K D I     C A K T                      
                     -------------------------------------------                     
                    / 11   9   7   5   3   1  83  81  79  77  75 \                  
                   /    10   8   6   4   2  84  82  80  78  76    \                 
@@ -199,19 +202,19 @@ Universal-Interconnect-Multiplexer assignments
 ------------------------------------------------
 FanIn assignment for block A [9]
 {
-CD3,CPU_SIZ1,CPU_AS,CPU_SIZ0,CD2,CLK_68K,CD0,
-mA0,mA1,
+CPU_SIZ0,CD3,CPU_SIZ1,CPU_AS,CLK_68K,CD0,CD2,
+mA1,mA0,
 }
 Multiplexer assignment for block A
-CD3			(MC1	FB)  : MUX 0		Ref (A3fb)
-CPU_SIZ1		(MC8	P)   : MUX 1		Ref (F83p)
-CPU_AS			(MC5	FB)  : MUX 4		Ref (OE2)
+mA1			(MC9	P)   : MUX 4		Ref (G109p)
 CPU_SIZ0		(MC7	P)   : MUX 5		Ref (F85p)
 mA0			(MC6	P)   : MUX 6		Ref (G107p)
-CD2			(MC3	FB)  : MUX 7		Ref (A15fb)
-CLK_68K			(MC4	P)   : MUX 19		Ref (H120p)
-mA1			(MC9	P)   : MUX 24		Ref (G109p)
-CD0			(MC2	FB)  : MUX 37		Ref (A12fb)
+CD3			(MC3	FB)  : MUX 7		Ref (A15fb)
+CPU_SIZ1		(MC8	P)   : MUX 13		Ref (F83p)
+CPU_AS			(MC5	FB)  : MUX 16		Ref (OE2)
+CLK_68K			(MC4	P)   : MUX 27		Ref (H120p)
+CD0			(MC1	FB)  : MUX 29		Ref (A10fb)
+CD2			(MC2	FB)  : MUX 37		Ref (A12fb)
 
 FanIn assignment for block B [6]
 {
@@ -322,22 +325,17 @@ MASTER_RESET,
 S100_SEL,
 }
 Multiplexer assignment for block H
-CD0			(MC1	FB)  : MUX 1		Ref (A12fb)
 MASTER_RESET		(MC4	FB)  : MUX 2		Ref (GCLR)
 S100_SEL		(MC3	P)   : MUX 6		Ref (E75p)
+CD0			(MC1	FB)  : MUX 7		Ref (A10fb)
 CPU_RW			(MC2	P)   : MUX 12		Ref (D59p)
-IO_ADDRESS		(MC6	P)   : MUX 21		Ref (C40p)
 CPU_DBEN		(MC5	P)   : MUX 26		Ref (D61p)
+IO_ADDRESS		(MC6	P)   : MUX 29		Ref (C40p)
 
-Creating JEDEC file C:\WINCUPL\MASTER\68030_MASTER.jed ...
+Creating JEDEC file C:\WINCUPL\68030\68030_MASTER_S.jed ...
 
 PLCC84 programmed logic:
 -----------------------------------
-BE1 = ((mA0 & mA1)
-	# (!mA1 & CPU_SIZ0 & !CPU_SIZ1)
-	# CPU_AS
-	# (!mA0 & !mA1 & !CPU_SIZ0 & CPU_SIZ1));
-
 BE2 = (mA1
 	# CPU_AS
 	# (!mA0 & !CPU_SIZ1 & CPU_SIZ0));
@@ -347,51 +345,58 @@ BE2 = (mA1
 	# (!CPU_AS & !CPU_SIZ0 & !CPU_SIZ1)
 	# (!CPU_AS & mA1 & mA0));
 
+BE1 = ((mA0 & mA1)
+	# (!mA1 & CPU_SIZ0 & !CPU_SIZ1)
+	# CPU_AS
+	# (!mA0 & !mA1 & !CPU_SIZ0 & CPU_SIZ1));
+
 !BE3 = (!CPU_AS & !mA0 & !mA1);
 
 CLK_68K.T = CD0.Q;
 
-CPU_AVEC = ANY_IPL;
-
-CPU_STERM = 1;
-
 !DIAG_LED = (!CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE);
 
-!INTA = (!CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE);
-
-INACTIVATE_CONTROL_LINES = 1;
+CPU_AVEC = ANY_IPL;
 
 INACTIVATE_DATA_LINES = 1;
 
-S100_16_DIR = !CPU_RW;
+CPU_STERM = 1;
+
+INACTIVATE_CONTROL_LINES = 1;
 
 S100_8_OUT_DIR = !CPU_RW;
 
-pSYNC_68K = (CPU_AS & !CPU_ECS);
+!INTA = (!CPU_AS & CPU_FC0 & CPU_FC1 & CPU_FC2 & !INTA_CODE);
+
+S100_16_DIR = !CPU_RW;
+
+XFERI = 0;
 
 XFERII = 0;
 
-XFERI = 0;
+pSYNC_68K.D = (CPU_AS & !CPU_ECS);
+
+pHLDA = 0;
+
+!EXTENDED_RAM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & MASTER_RESET & S100_SEL);
 
 CPU_RESET = MASTER_RESET;
 
 !EXTENDED_RAM_RD = (!CPU_DBEN & CPU_RW & IO_ADDRESS & MASTER_RESET & S100_SEL);
 
-!MEM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & MASTER_RESET & !S100_SEL);
+!MEM_RD = (!CPU_DBEN & CPU_RW & IO_ADDRESS & MASTER_RESET & ROM_SEL & !S100_SEL);
 
-!EXTENDED_RAM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & MASTER_RESET & S100_SEL);
-
-!IO_IN = (!CPU_DS & CPU_RW & !IO_ADDRESS & MASTER_RESET & !S100_SEL);
+!IO_IN = (!CPU_DBEN & CPU_RW & !IO_ADDRESS & MASTER_RESET & !S100_SEL);
 
 !IO_OUT = (!CPU_DBEN & !CPU_RW & !IO_ADDRESS & MASTER_RESET & !S100_SEL);
 
-!MEM_RD = (!CPU_DS & CPU_RW & IO_ADDRESS & MASTER_RESET & ROM_SEL & !S100_SEL);
+!dpWR = (!CPU_DS & !CPU_RW & MASTER_RESET & !S100_SEL);
 
-ppDBIN = (MASTER_RESET & !CPU_DS & CPU_RW & !S100_SEL);
+!MEM_WR = (!CPU_DBEN & !CPU_RW & IO_ADDRESS & MASTER_RESET & !S100_SEL);
 
 !S100_ROM_IN_OE = (!CPU_DBEN & CPU_RW & MASTER_RESET & !ROM_SEL & !S100_SEL);
 
-!dpWR = (!CPU_DS & !CPU_RW & MASTER_RESET & !S100_SEL);
+ppDBIN = (MASTER_RESET & !CPU_DS & CPU_RW & !S100_SEL);
 
 !sXTRQ = (!CPU_SIZ0 & IO_ADDRESS & MASTER_RESET & ROM_SEL & !mA0);
 
@@ -403,9 +408,9 @@ CPU_DSACK0 = (!S100_WAIT
 CPU_DSACK1 = (!S100_WAIT
 	# (!S100_SEL & sXTRQ));
 
-!S100_8_IN_DIR = (sXTRQ & CPU_RW);
-
 !S100_8_IN_OE = (sXTRQ & !CPU_DBEN & CPU_RW & MASTER_RESET & ROM_SEL & !S100_SEL);
+
+!S100_8_IN_DIR = (sXTRQ & CPU_RW);
 
 !S100_8_OUT_OE = ((!CPU_DBEN & MASTER_RESET & !S100_SEL & !sXTRQ)
 	# (!CPU_DBEN & MASTER_RESET & !S100_SEL & !CPU_RW));
@@ -417,6 +422,10 @@ CD2.D = !CD2.Q;
 CD0.D = !CD0.Q;
 
 CLK_68K.C = MASTER_CLK;
+
+pSYNC_68K.C = PHI;
+
+pSYNC_68K.AP = (CPU_AS & !CPU_ECS);
 
 CD3.C = MASTER_CLK;
 
@@ -489,10 +498,12 @@ Pin 73 = EXTENDED_RAM_RD; /* MC 115 */
 Pin 74 = EXTENDED_RAM_WR; /* MC 117 */ 
 Pin 75 = CPU_RESET; /* MC 118 */ 
 Pin 76 = CLK_68K; /* MC 120 */ 
+Pin 77 = pHLDA; /* MC 123 */ 
+Pin 81 = PHI; /* MC 128 */ 
 Pin 83 = MASTER_CLK;
-PINNODE 603 = CD3; /* MC 3 Feedback */
-PINNODE 612 = CD0; /* MC 12 Feedback */
-PINNODE 615 = CD2; /* MC 15 Feedback */
+PINNODE 610 = CD0; /* MC 10 Feedback */
+PINNODE 612 = CD2; /* MC 12 Feedback */
+PINNODE 615 = CD3; /* MC 15 Feedback */
 
 ** Resource Usage **
 
@@ -514,19 +525,19 @@ For input only = INPUT.
 MCell Pin# Oe   PinDrive                 DCERP  FBDrive  DCERP  Foldback  CascadeOut     TotPT output_slew
 MC1   0         --                              --              --        --             0     slow
 MC2   0         --                              --              --        --             0     slow
-MC3   12   on   INACTIVATE_DATA_LINES    C----  CD3      Dge--  --        --             3     slow
+MC3   12   on   INACTIVATE_DATA_LINES    C----  --              --        --             0     slow
 MC4   0         --                              --              --        --             0     slow
 MC5   11   --   CPU_FC2                  INPUT  --              --        --             0     slow
 MC6   10   --   CPU_FC1                  INPUT  --              --        --             0     slow
 MC7   0         --                              --              --        --             0     slow
 MC8   9    --   CPU_FC0                  INPUT  --              --        --             0     slow
 MC9   0         --                              --              --        --             0     slow
-MC10  0         --                              --              --        --             0     slow
+MC10  0         --                              CD0      Dg---  --        --             1     slow
 MC11  8    on   BE3                      C----  --              --        --             1     slow
-MC12  0         --                              CD0      Dg---  --        --             1     slow
+MC12  0         --                              CD2      Dge--  --        --             2     slow
 MC13  6    on   BE2                      C----  --              --        --             3     slow
 MC14  5    on   BE1                      C----  --              --        --             4     slow
-MC15  0         --                              CD2      Dge--  --        --             2     slow
+MC15  0         --                              CD3      Dge--  --        --             2     slow
 MC16  4    on   BE0                      C----  --              --        --             4     slow
 MC17  22   on   S100_8_IN_OE             C----  --              --        --             1     slow
 MC18  0         --                              --              --        --             0     slow
@@ -588,7 +599,7 @@ MC73  49   on   XFERII                   C----  --              --        --    
 MC74  0         --                              --              --        --             0     slow
 MC75  50   --   S100_SEL                 INPUT  --              --        --             0     slow
 MC76  0         --                              --              --        --             0     slow
-MC77  51   on   pSYNC_68K                C----  --              --        --             1     slow
+MC77  51   on   pSYNC_68K                Dg--p  --              --        --             2     slow
 MC78  0         --                              --              --        --             0     slow
 MC79  0         --                              --              --        --             0     slow
 MC80  52        --                              --              --        --             0     slow
@@ -634,38 +645,38 @@ MC119 0         --                              --              --        --    
 MC120 76   on   CLK_68K                  Tg---  --              --        --             1     slow
 MC121 0         --                              --              --        --             0     slow
 MC122 0         --                              --              --        --             0     slow
-MC123 77        --                              --              --        --             0     slow
+MC123 77   on   pHLDA                    C----  --              --        --             0     slow
 MC124 0         --                              --              --        --             0     slow
 MC125 79        --                              --              --        --             0     slow
 MC126 80        --                              --              --        --             0     slow
 MC127 0         --                              --              --        --             0     slow
-MC128 81        --                              --              --        --             0     slow
+MC128 81   --   PHI                      INPUT  --              --        --             0     slow
 MC0   2         CPU_AS                   INPUT  --              --        --             0     slow
 MC0   1         MASTER_RESET             INPUT  --              --        --             0     slow
 MC0   84        --                              --              --        --             0     slow
 MC0   83        MASTER_CLK               INPUT  --              --        --             0     slow
 
 Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
-A: LC1	- LC16		8/16(50%)	8/16(50%)	0/16(0%)	18/80(22%)	(9)	0
+A: LC1	- LC16		8/16(50%)	8/16(50%)	0/16(0%)	17/80(21%)	(9)	0
 B: LC17	- LC32		3/16(18%)	5/16(31%)	0/16(0%)	3/80(3%)	(6)	0
 C: LC33	- LC48		4/16(25%)	8/16(50%)	0/16(0%)	4/80(5%)	(11)	0
 D: LC49	- LC64		4/16(25%)	7/16(43%)	0/16(0%)	6/80(7%)	(4)	0
-E: LC65	- LC80		4/16(25%)	6/16(37%)	0/16(0%)	1/80(1%)	(2)	0
+E: LC65	- LC80		4/16(25%)	6/16(37%)	0/16(0%)	2/80(2%)	(2)	0
 F: LC81	- LC96		5/16(31%)	8/16(50%)	0/16(0%)	5/80(6%)	(7)	0
 G: LC97	- LC112		4/16(25%)	8/16(50%)	0/16(0%)	4/80(5%)	(14)	0
-H: LC113- LC128		4/16(25%)	4/16(25%)	0/16(0%)	4/80(5%)	(6)	0
+H: LC113- LC128		5/16(31%)	6/16(37%)	0/16(0%)	4/80(5%)	(6)	0
 
 Total dedicated input used:	3/4 	(75%)
-Total I/O pins used		54/64 	(84%)
-Total Logic cells used 		36/128 	(28%)
-Total Flip-Flop used 		4/128 	(3%)
+Total I/O pins used		56/64 	(87%)
+Total Logic cells used 		37/128 	(28%)
+Total Flip-Flop used 		5/128 	(3%)
 Total Foldback logic used 	0/128 	(0%)
-Total Nodes+FB/MCells 		36/128 	(28%)
+Total Nodes+FB/MCells 		37/128 	(28%)
 Total cascade used 		0
-Total input pins 		24
-Total output pins 		33
+Total input pins 		25
+Total output pins 		34
 Total Pts 			45
-Creating pla file C:\WINCUPL\MASTER\68030_MASTER.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
+Creating pla file C:\WINCUPL\68030\68030_MASTER_S.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
 
 ----------------  End fitter, Design FITS
 $Device PLCC84 fits 
